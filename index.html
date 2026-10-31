@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d6f78">
+  <meta name="description" content="國立臺灣海洋大學電機工程學系大學部互動式學程地圖">
+  <title>海大電機學程島</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&family=Shippori+Mincho:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell" data-time="day">
+    <header class="brand-panel">
+      <div class="brand-kicker">NTOU EE · CURRICULUM ISLAND</div>
+      <h1>海大電機<br><span>學程島</span></h1>
+      <p>從基礎啟航，沿著課程關係走向六大專業領域。</p>
+    </header>
+
+    <nav class="map-toolbar" aria-label="地圖工具">
+      <button class="tool-button is-active" id="homeBtn" type="button" aria-pressed="true"><span aria-hidden="true">⌂</span><b>全景</b></button>
+      <div class="tool-separator"></div>
+      <button class="tool-button theme-button is-active" type="button" data-theme="day" aria-label="白天模式" aria-pressed="true"><span aria-hidden="true">☀</span><b>白天</b></button>
+      <button class="tool-button theme-button" type="button" data-theme="sunset" aria-label="黃昏模式" aria-pressed="false"><span aria-hidden="true">◒</span><b>黃昏</b></button>
+      <button class="tool-button theme-button" type="button" data-theme="night" aria-label="夜晚模式" aria-pressed="false"><span aria-hidden="true">☾</span><b>夜晚</b></button>
+      <div class="tool-separator"></div>
+      <button class="tool-button is-active" id="flowBtn" type="button" aria-pressed="true"><span aria-hidden="true">⌁</span><b>關聯線</b></button>
+      <button class="tool-button mobile-panel-button" id="panelBtn" type="button" aria-expanded="false" aria-controls="sidePanel"><span aria-hidden="true">☰</span><b>清單</b></button>
+    </nav>
+
+    <main class="map-stage" id="mapStage">
+      <div class="sky-decor sky-one"></div>
+      <div class="sky-decor sky-two"></div>
+      <div class="ocean-grid" aria-hidden="true"></div>
+      <div class="map-caption"><span>INTERACTIVE CURRICULUM MAP</span><strong>點選課程，查看前後銜接與課綱</strong></div>
+
+      <div class="island-wrap" id="islandWrap">
+        <svg class="island-art" viewBox="0 0 1000 720" role="img" aria-labelledby="islandTitle islandDesc">
+          <title id="islandTitle">海大電機學程島</title>
+          <desc id="islandDesc">島嶼依大一至大四分區，課程節點以關聯線連接。</desc>
+          <defs>
+            <filter id="islandShadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="15" flood-color="#064d5b" flood-opacity=".28"/></filter>
+            <pattern id="dots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.6" fill="currentColor" opacity=".16"/></pattern>
+          </defs>
+          <g class="satellite-islands" aria-hidden="true">
+            <path d="M59 572c38-24 94-11 104 25 9 33-29 65-82 58-44-6-61-55-22-83Z"/>
+            <path d="M810 616c29-22 73-18 92 5 23 29-5 64-49 61-49-3-77-39-43-66Z"/>
+            <path d="M98 130c18-17 51-15 61 7 12 27-16 49-48 42-28-6-34-29-13-49Z"/>
+            <path d="M865 108c21-17 58-13 68 11 10 25-16 47-50 40-29-6-38-32-18-51Z"/>
+          </g>
+          <g filter="url(#islandShadow)">
+            <path class="island-cliff" d="M186 510C100 458 116 347 176 303c42-31 26-106 99-141 67-31 131 8 184-29 68-48 151-37 194 17 36 45 92 24 147 70 53 44 42 101 69 150 32 58-9 124-79 141-53 13-58 78-132 91-66 12-111-31-165-13-72 24-127 2-153-42-41-69-101-5-154-37Z"/>
+            <path class="island-base" d="M183 485C98 433 115 322 175 279c42-31 27-105 100-140 67-31 132 9 185-29 68-48 150-37 194 17 35 45 91 25 146 70 54 44 42 101 70 150 32 58-10 124-80 141-53 13-58 78-132 91-65 11-111-31-165-13-72 24-127 2-153-42-41-69-103-6-157-39Z"/>
+            <path class="grade-zone zone-4" d="M304 161c56-35 108-12 156-51 68-48 150-37 194 17 17 22 40 28 66 34l-48 149-166 13-102-80-100-82Z"/>
+            <path class="grade-zone zone-3" d="M176 279c42-31 27-105 100-140 10-5 19-8 28-10l100 114 102 80-40 137-153 36-108-60c-21-46-6-112-29-157Z"/>
+            <path class="grade-zone zone-2" d="M506 323l166-13 48-149c31 5 54 9 80 36 54 44 42 101 70 150 17 30 13 61-3 86l-172 42-103 95c-34-6-66-19-99-8l-27-102 40-137Z"/>
+            <path class="grade-zone zone-1" d="M205 436l108 60 153-36 27 102c-72 24-127 2-153-42-41-69-103-6-157-39-20-12-20-28-8-45l30 40Zm287 126c33-11 66 2 100 8 26 4 47 2 66-2 26-7 49-25 57-50l-20-43-103 95-100-8Z"/>
+            <path class="island-texture" d="M183 485C98 433 115 322 175 279c42-31 27-105 100-140 67-31 132 9 185-29 68-48 150-37 194 17 35 45 91 25 146 70 54 44 42 101 70 150 32 58-10 124-80 141-53 13-58 78-132 91-65 11-111-31-165-13-72 24-127 2-153-42-41-69-103-6-157-39Z" fill="url(#dots)"/>
+          </g>
+          <g class="zone-labels" aria-hidden="true">
+            <g transform="translate(258 421)"><circle r="27"/><text y="6">1</text><text class="zone-name" x="39" y="6">大一｜基礎啟航</text></g>
+            <g transform="translate(699 395)"><circle r="27"/><text y="6">2</text><text class="zone-name" x="39" y="6">大二｜核心電學</text></g>
+            <g transform="translate(293 252)"><circle r="27"/><text y="6">3</text><text class="zone-name" x="39" y="6">大三｜系統整合</text></g>
+            <g transform="translate(547 165)"><circle r="27"/><text y="6">4</text><text class="zone-name" x="39" y="6">大四｜領域深化</text></g>
+          </g>
+          <g class="island-buildings" aria-hidden="true">
+            <g transform="translate(401 337)"><rect x="-25" y="-28" width="50" height="45" rx="5"/><path d="M-32-28 0-49l32 21Z"/><rect x="-7" y="-2" width="14" height="19"/></g>
+            <g transform="translate(604 284)"><rect x="-33" y="-20" width="66" height="40" rx="5"/><path d="M-39-20 0-45l39 25Z"/><rect x="-22" y="-5" width="12" height="12"/><rect x="10" y="-5" width="12" height="12"/></g>
+            <g transform="translate(360 184)"><rect x="-26" y="-28" width="52" height="47" rx="5"/><path d="M-34-28 0-50l34 22Z"/><path d="M-15 19V-8h30v27"/></g>
+            <g transform="translate(687 171)"><rect x="-29" y="-23" width="58" height="43" rx="5"/><path d="M-35-23 0-49l35 26Z"/><circle cy="-6" r="9"/></g>
+          </g>
+          <g class="trees" aria-hidden="true">
+            <g transform="translate(213 352)"><circle cy="-17" r="20"/><rect x="-4" y="0" width="8" height="20"/></g>
+            <g transform="translate(780 311)"><circle cy="-17" r="20"/><rect x="-4" y="0" width="8" height="20"/></g>
+            <g transform="translate(453 160)"><circle cy="-17" r="20"/><rect x="-4" y="0" width="8" height="20"/></g>
+            <g transform="translate(616 493)"><circle cy="-17" r="20"/><rect x="-4" y="0" width="8" height="20"/></g>
+            <g transform="translate(348 509)"><circle cy="-17" r="20"/><rect x="-4" y="0" width="8" height="20"/></g>
+          </g>
+          <g class="student student-1" transform="translate(260 474)" data-grade="1" role="button" tabindex="0" aria-label="篩選大一課程"><circle class="student-head" cy="-20" r="13"/><path class="student-hair" d="M-12-24c3-14 22-15 25 0-8-4-17-4-25 0Z"/><path class="student-body" d="M-17 18v-26c0-9 34-9 34 0v26Z"/><path class="student-bag" d="M11-5h11v18H11Z"/><text y="39">大一</text></g>
+          <g class="student student-2" transform="translate(752 407)" data-grade="2" role="button" tabindex="0" aria-label="篩選大二課程"><circle class="student-head" cy="-20" r="13"/><path class="student-hair" d="M-12-24c3-14 22-15 25 0-8-4-17-4-25 0Z"/><path class="student-body" d="M-17 18v-26c0-9 34-9 34 0v26Z"/><path class="student-bag" d="M11-5h11v18H11Z"/><text y="39">大二</text></g>
+          <g class="student student-3" transform="translate(229 280)" data-grade="3" role="button" tabindex="0" aria-label="篩選大三課程"><circle class="student-head" cy="-20" r="13"/><path class="student-hair" d="M-12-24c3-14 22-15 25 0-8-4-17-4-25 0Z"/><path class="student-body" d="M-17 18v-26c0-9 34-9 34 0v26Z"/><path class="student-bag" d="M11-5h11v18H11Z"/><text y="39">大三</text></g>
+          <g class="student student-4" transform="translate(587 117)" data-grade="4" role="button" tabindex="0" aria-label="篩選大四課程"><circle class="student-head" cy="-20" r="13"/><path class="student-hair" d="M-12-24c3-14 22-15 25 0-8-4-17-4-25 0Z"/><path class="student-body" d="M-17 18v-26c0-9 34-9 34 0v26Z"/><path class="student-bag" d="M11-5h11v18H11Z"/><text y="39">大四</text></g>
+        </svg>
+        <svg class="flow-layer" id="flowLayer" viewBox="0 0 1000 720" aria-hidden="true"></svg>
+        <div class="course-nodes" id="courseNodes" aria-label="島上課程節點"></div>
+      </div>
+    </main>
+
+    <aside class="side-panel" id="sidePanel" aria-label="課程探索面板">
+      <div class="panel-drag" aria-hidden="true"></div>
+      <div class="panel-topline">THE CURRICULUM INDEX</div>
+      <h2>把四年，<br>連成一條學習航線。</h2>
+      <p class="panel-intro">從基礎課程出發，理解每一門課如何接向下一座島。</p>
+      <div class="panel-stats"><span><strong id="courseCount">25</strong> 門課程節點</span><span><strong>6</strong> 大專業領域</span></div>
+      <label class="search-box"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="搜尋課程、領域或關鍵字…" autocomplete="off"></label>
+      <div class="panel-tabs" role="tablist" aria-label="探索模式">
+        <button id="coursesTab" class="is-active" type="button" role="tab" aria-selected="true" aria-controls="coursesView">課程地圖</button>
+        <button id="fieldsTab" type="button" role="tab" aria-selected="false" aria-controls="fieldsView">六大領域</button>
+      </div>
+      <div class="grade-filters" id="gradeFilters" aria-label="年級篩選">
+        <button class="is-active" data-grade="all" type="button">全部</button><button data-grade="1" type="button">大一</button><button data-grade="2" type="button">大二</button><button data-grade="3" type="button">大三</button><button data-grade="4" type="button">大四</button>
+      </div>
+      <section class="panel-view course-list" id="coursesView" role="tabpanel" aria-labelledby="coursesTab"></section>
+      <section class="panel-view fields-view" id="fieldsView" role="tabpanel" aria-labelledby="fieldsTab" hidden></section>
+      <footer class="panel-footer"><span>資料：1152 課程綱要與電機系課程關聯圖</span><span>互動導覽 · 非選課系統</span></footer>
+    </aside>
+
+    <section class="director-dock" aria-label="系主任導覽">
+      <button class="director-avatar" id="directorBtn" type="button" aria-label="開啟系主任導覽"><span class="director-head"><i class="hair"></i><i class="glasses"></i><i class="smile"></i></span><span class="director-body"><i class="tie"></i></span></button>
+      <div class="director-copy"><span>系主任導覽</span><button id="directorTextBtn" type="button">不知道從哪開始？點我帶你走一圈 <b>→</b></button></div>
+    </section>
+
+    <div class="tour-backdrop" id="tourBackdrop" hidden></div>
+    <section class="tour-card" id="tourCard" role="dialog" aria-modal="true" aria-labelledby="tourTitle" hidden>
+      <div class="tour-character" aria-hidden="true"><span class="director-head"><i class="hair"></i><i class="glasses"></i><i class="smile"></i></span><span class="director-body"><i class="tie"></i></span></div>
+      <div class="tour-content">
+        <div class="tour-step" id="tourStep">WELCOME / 01</div><h2 id="tourTitle">歡迎登島，我是系主任</h2><p id="tourText">這座島把大一到大四的課程關係畫成一條航線。先從基礎啟航，再逐步走向六大專業領域。</p>
+        <div class="tour-actions"><button class="secondary-button" id="tourSkip" type="button">先自己逛</button><button class="primary-button" id="tourNext" type="button">下一站 <span>→</span></button></div>
+        <div class="tour-progress" id="tourProgress" aria-label="導覽進度"></div>
+      </div>
+    </section>
+
+    <div class="modal-backdrop" id="modalBackdrop" hidden></div>
+    <section class="course-modal" id="courseModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+      <button class="modal-close" id="modalClose" type="button" aria-label="關閉課程詳情">×</button>
+      <div class="modal-grade" id="modalGrade">大一 · 必修</div><h2 id="modalTitle">微積分</h2><p class="modal-english" id="modalEnglish">Calculus</p><div class="modal-meta" id="modalMeta"></div><p class="modal-summary" id="modalSummary"></p>
+      <div class="modal-grid"><div><h3>先修與銜接</h3><p id="modalPrereq"></p></div><div><h3>課程內容</h3><ul id="modalTopics"></ul></div></div>
+      <div class="evaluation" id="evaluationBox"><h3>評量方式</h3><div id="modalEvaluation"></div></div><p class="modal-note" id="modalNote"></p>
+    </section>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
